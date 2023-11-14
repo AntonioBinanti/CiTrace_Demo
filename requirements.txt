@@ -1,0 +1,11 @@
+Flask
+matplotlib
+pandas
+random
+datetime
+enum
+sklearn
+ast
+numpy
+IPython
+seaborn
