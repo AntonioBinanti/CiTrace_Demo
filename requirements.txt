@@ -6,3 +6,4 @@ scikit-learn == 1.0.2
 numpy
 IPython
 seaborn
+gunicorn==19.7.1
