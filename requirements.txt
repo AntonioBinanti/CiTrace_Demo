@@ -1,11 +1,8 @@
 Flask
 matplotlib
 pandas
-random
 datetime
-enum
-sklearn
-ast
+scikit-learn == 1.2.2
 numpy
 IPython
 seaborn

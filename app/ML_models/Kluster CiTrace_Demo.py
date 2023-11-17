@@ -12,8 +12,11 @@ from sklearn.decomposition import PCA
 from IPython.display import clear_output
 from sklearn.neighbors import KNeighborsClassifier
 import seaborn as sns
+from pathlib import Path
 
 #%% Variabili globali
+__version__ = "0.1.0"
+BASE_DIR = Path(__file__).resolve(strict=True).parent
 interest_value = 0.5
 n_clusters = 6
 
@@ -122,9 +125,9 @@ plt.show()
 nums = np.arange(len(x.columns))
 var_ratio = []
 for num in nums:
-  pca = PCA(n_components=num)
-  pca.fit(x_stand)
-  var_ratio.append(np.sum(pca.explained_variance_ratio_))
+  pca_ = PCA(n_components=num)
+  pca_.fit(x_stand)
+  var_ratio.append(np.sum(pca_.explained_variance_ratio_))
 
 plt.figure(figsize=(4,2),dpi=150)
 plt.grid()
@@ -151,31 +154,37 @@ sns.scatterplot(x = data_2d[:,0], y = data_2d[:,1], hue = labels, palette = colo
 plt.legend(bbox_to_anchor=(1, 1), loc='upper left')
 plt.title("Cluster utenti")
 
-#%% Prova inserimento nuovi utenti
-"""
-new_users = [[0, 1, 0, 1, 0, 0],
-             [0, 0, 1, 0, 1, 0],
-             [0, 0, 1, 0, 0, 0],
-             [1, 0, 0, 1, 0, 0],
-             [1, 0, 1, 0, 0, 0],
-             [0, 0, 1, 0, 0, 1],
-             [1, 0, 0, 0, 1, 0],
-             [1, 1, 0, 0, 1, 1]
-            ]"""
 
-new_users = [[1, 1, 0, 0, 0, 0],
-             [0, 1, 0, 1, 0, 1],
-             [0, 0, 1, 0, 0, 0],
-             [0, 0, 0, 1, 0, 0],
-             [0, 0, 0, 0, 1, 0],
-             [0, 0, 0, 0, 0, 1]
-            ]
-new_users_stand = pd.DataFrame(scaler.fit_transform(new_users) * 10, columns = components)
+#%% Creazione modello KNN
+knn = KNeighborsClassifier(n_neighbors=5)
+knn.fit(data_2d, labels)
+
+#%% PROVA ESPORTAZIONE MODELLO, SCALER, COMPONENTS E PCA
+import pickle
+#pickle.dump(knn,open('KNN_model.pkl','wb'))
+#pickle.dump(scaler, open("scaler_components.pkl", "wb"))
+pickle.dump(knn,open(f"{BASE_DIR}/KNN_model-{__version__}.pkl",'wb'))
+pickle.dump(scaler, open(f"{BASE_DIR}/scaler_components.pkl", "wb"))
+pickle.dump(components, open(f"{BASE_DIR}/components.pkl", "wb"))
+pickle.dump(pca, open(f"{BASE_DIR}/pca.pkl", "wb"))
+
+#Per importarlo:
+#pickled_model=pickle.load(open('KNN_model.pkl','rb'))
+
+#%% Prova inserimento nuovi utenti
+new_users = [[1, 0, 1, 0, 0, 0],
+             [0, 1, 0, 1, 0, 0],
+             [0, 0, 1, 0, 1, 0],
+             [0, 0, 0, 1, 0, 1],
+             [1, 0, 0, 0, 1, 0],
+             [0, 1, 0, 0, 0, 1]]
+
+new_users_agg = new_users * scaler.data_max_ * 0.75
+
+new_users_stand = pd.DataFrame(scaler.transform(new_users_agg) * 10, columns = components)
 
 new_users_2D = pca.transform(new_users_stand)
 
-knn = KNeighborsClassifier(n_neighbors=5)
-knn.fit(data_2d, labels)
 prediction = knn.predict(new_users_2D)
 
 plt.figure(figsize = (6, 4))
@@ -187,10 +196,9 @@ plt.legend(bbox_to_anchor=(1, 1), loc='upper left')
 plt.title("Cluster nuovi utenti (x)")
 
 plt.show()
+#%% Prova inserimento preferenze utente passate coe lista di stringhe
+preference = ["Prezzi", "Magazzino"]
 
-#%% PROVA ESPORTAZIONE MODELLO
-import pickle
-pickle.dump(knn,open('KNN_model.pkl','wb'))
-pickled_model=pickle.load(open('KNN_model.pkl','rb'))
-## Prediction
-pickled_model.predict(new_users_2D)
+preference_int = [1 if pref in preference else 0 for pref in components]
+print(preference_int)
+
