@@ -5,6 +5,6 @@ scikit-learn == 1.2.2
 numpy
 IPython
 seaborn
-gunicorn == 20.1.0
-uvicorn == 0.18.3
-fastapi == 0.85.0
+gunicorn
+uvicorn
+fastapi
