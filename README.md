@@ -1,4 +1,6 @@
 # CiTrace_Demo
 
-RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
-#ATTENZIONE: il reale modello usa la versione 1.2.2, in "requirements.txt" è 1.0.2, è stato aggiunto anche "gunicorn==20.1.0", "uvicorn == 0.18.3", "fastapi == 0.85.0"
+#Come fare deploy da Render.com
+1.	Da Enviroment->Environment Variables->Inserire come Key = “PYTHON_VERSION“ e come value = “3.11.5” (Versione di python attualmente utilizzata in Spyder)
+2.	Build Command: pip install -r requirements.txt
+3.	Start Command: uvicorn app.main:app --host 0.0.0.0 --port 10000

@@ -171,7 +171,7 @@ pickle.dump(pca, open(f"{BASE_DIR}/pca.pkl", "wb"))
 #Per importarlo:
 #pickled_model=pickle.load(open('KNN_model.pkl','rb'))
 
-#%% Prova inserimento nuovi utenti
+#%% Prova inserimento nuovi utenti utilizzando valori numerici
 new_users = [[1, 0, 1, 0, 0, 0],
              [0, 1, 0, 1, 0, 0],
              [0, 0, 1, 0, 1, 0],

@@ -8,6 +8,11 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import ast
+from pathlib import Path
+
+#%% Variabili globali
+__version__ = "0.1.1"
+BASE_DIR = Path(__file__).resolve(strict=True).parent
 
 #%% Import datasets
 request = pd.read_csv("C:\\Users\\AntonioBinanti\\Documents\\CiTrace\\Datasets\\Requests CiTrace\\Request.csv")
@@ -60,10 +65,14 @@ print("Test data accuracy:",accuracy_score(y_true = y_test, y_pred = y_pred))
 
 y_proba = dtree.predict_proba(X_test)
 
-#%% Rionversione in valori categorici di y_proba
+#%% Riconversione in valori categorici di y_proba
 #codes = request.component.cat.codes
 categories = request["component"].cat.categories
 y_proba = pd.DataFrame(y_proba, columns = categories)
+
+#%% Esportazione modello 
+import pickle
+pickle.dump(dtree,open(f"{BASE_DIR}/decisionTree_model-{__version__}.pkl",'wb'))
 
 #%% Esempio log utente registrato
 logged_users = [[3, 4],

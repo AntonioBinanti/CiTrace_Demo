@@ -21,8 +21,9 @@ model_knn = pickle.load(open(f"{BASE_DIR}/KNN_model-{__version__}.pkl", "rb"))
 components = pickle.load(open(f"{BASE_DIR}/components.pkl", "rb"))
 pca = pickle.load(open(f"{BASE_DIR}/pca.pkl", "rb"))
 scaler = pickle.load(open(f"{BASE_DIR}/scaler_components.pkl", "rb"))
+model_dtree = pickle.load(open(f"{BASE_DIR}/decisionTree_model-{__version__}.pkl",'rb'))
 
-#%% Predizione
+#%% Predizioni
 def predict_cluster(preferences): 
     preference_int = [1 if pref in preferences else 0 for pref in components]
     preferences_agg = [preference_int] * scaler.data_max_ * 0.75
@@ -31,5 +32,19 @@ def predict_cluster(preferences):
     prediction = model_knn.predict(new_users_2D)
     return prediction.tolist()
 
+def predict_components(user_id, device_info_id):
+    out = model_dtree.predict_proba([[user_id, device_info_id]])
+    out = pd.DataFrame(out, columns = components)
+    
+    components_dict = {}
+    for u in range(0, len(out)):
+        comp = out.iloc[u].sort_values(ascending = False).index
+        for u1 in range(0, len(comp)):
+            components_dict[int(u1 + 1)] = comp[u1]
+    return components_dict  #comp.tolist()
+    
+#%%Test
+#a = predict_components(3, 4)
+#print(a)
 
 
