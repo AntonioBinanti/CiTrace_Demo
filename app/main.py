@@ -7,6 +7,7 @@ Created on Wed Nov 15 11:00:06 2023
 
 #%% Import librerie
 from fastapi import FastAPI
+from typing import List
 from pydantic import BaseModel
 from app.ML_models.model_functions import predict_cluster
 from app.ML_models.model_functions import __version__ as model_version
@@ -15,10 +16,10 @@ from app.ML_models.model_functions import __version__ as model_version
 app = FastAPI()
 
 class UserIn(BaseModel):
-    new_user_preferences: list[str]
+    new_user_preferences: List[str]
     
 class PredictionOut(BaseModel):
-    cluster: list[int]
+    cluster: List[int]
 
 #%% Definizione API app
 
