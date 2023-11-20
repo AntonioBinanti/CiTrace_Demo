@@ -31,3 +31,5 @@ def predict_cluster(preferences):
     prediction = model_knn.predict(new_users_2D)
     return prediction.tolist()
 
+
+
