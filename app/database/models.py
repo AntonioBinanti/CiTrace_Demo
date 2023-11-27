@@ -38,7 +38,7 @@ class Device_info(Base):
     
     identifier = Column(Integer, primary_key = True, index = True)
     model = Column(String)
-    owner_id = Column(String, ForeignKey("allUsers.user_id"))
+    owner_id = Column(Integer, ForeignKey("allUsers.user_id"))
     
     owners = relationship("AllUsers", back_populates = "device_info")
     
