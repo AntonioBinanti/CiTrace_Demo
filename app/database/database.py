@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Nov 23 10:02:47 2023
+
+@author: AntonioBinanti
+"""
+#%% Import librerie
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+
+#%%
+SQLALCHEMY_DATABASE_URL = "postgres://utente1:gBudzRyqR1ebZVOY2TobUyJINDB3Sqac@dpg-cleu9jbl00ks739tvo20-a.frankfurt-postgres.render.com/prova_urov" #"sqlite:///./books.db" #DA CAMBIARE CON L'URL DEL DATABASE CREATO SU RENDER.COM
+
+engine = create_engine(
+    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()

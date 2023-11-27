@@ -8,3 +8,4 @@ seaborn
 gunicorn
 uvicorn
 fastapi
+sqlalchemy

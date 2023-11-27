@@ -41,7 +41,7 @@ def predict_components(user_id, device_info_id):
         comp = out.iloc[u].sort_values(ascending = False).index
         for u1 in range(0, len(comp)):
             components_dict[int(u1 + 1)] = comp[u1]
-    return components_dict  #comp.tolist()
+    return components_dict
     
 #%%Test
 #a = predict_components(3, 4)
