@@ -13,7 +13,7 @@ from sqlalchemy.ext.declarative import declarative_base
 SQLALCHEMY_DATABASE_URL = "postgresql://utente1:gBudzRyqR1ebZVOY2TobUyJINDB3Sqac@dpg-cleu9jbl00ks739tvo20-a/prova_urov" #"sqlite:///./books.db" #DA CAMBIARE CON L'URL DEL DATABASE CREATO SU RENDER.COM
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+    SQLALCHEMY_DATABASE_URL#, connect_args={"check_same_thread": False}
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
