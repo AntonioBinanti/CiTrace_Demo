@@ -75,6 +75,8 @@ def create_user(user: schemas.User, db: Session = Depends(get_db)):
 def create_device_to_user(username: str, device: schemas.Device, db: Session = Depends(get_db)):
     #db_device = crud_functions.get_device(db, identifier = device.identifier)
     db_user = crud_functions.get_user(db, username = username)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
     for dev in db_user.device_info:
         if device.model == dev.model:
             raise HTTPException(status_code=400, detail="Device already registered")

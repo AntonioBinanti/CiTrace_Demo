@@ -30,7 +30,7 @@ class Device(BaseModel):
         orm_mode = True
     
 class DeviceExt(Device):
-    identifier: str
+    identifier: int
     owner_id: Optional[int] 
     #owners: Optional[List[str]] = [] #DA CONTROLLARE
     
