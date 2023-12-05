@@ -53,6 +53,13 @@ def create_device_to_user(db: Session, device: schemas.Device, user_id: int):
     db.refresh(device_model)
     return device_model
 
+def create_request(db: Session, request: schemas.Request, user_id: int, device: int):
+    request_model = models.Request(**request.dict(), actualUser = user_id, device_info = device)
+    db.add(request_model)
+    db.commit()
+    db.refresh(request_model)
+    return request_model
+    
 def update_user(db: Session, user_updated: schemas.User, db_user: schemas.UserExt):
     user_data = user_updated.dict(exclude_unset = True) #Filtraggio dei soli valori inseriti dall'utente
     for key, value in user_data.items():

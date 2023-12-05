@@ -35,17 +35,19 @@ class DeviceExt(Device):
     #owners: Optional[List[str]] = [] #DA CONTROLLARE
     
 class Request(BaseModel):
-    request_id: int
     event: str
     selector: Optional[str]
     timestamp: str
     page_url_current: Optional[str]
-    actualUser: int #UserExt 
-    device_info: int #DeviceExt
     component: str
     class Config:
         orm_mode = True
-    
+        
+class RequestExt(Request):
+    actualUser: int
+    device_info: int
+    request_id: int
+
 class User(BaseModel):
     #user_id: int
     username: str

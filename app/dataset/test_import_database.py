@@ -34,7 +34,7 @@ def importa(db: Session):
 #%% Creazione tabelle
     db_all_Users = actualUser.to_sql("allUsers", postgresql_connection, if_exists = "append", index = False)
     #db_device_info = device_info.to_sql("device_info", postgresql_connection, if_exists = "append", index = False)
-    db_request = request.to_sql("request", postgresql_connection, if_exists = "replace")
+    db_request = request.to_sql("request", postgresql_connection, if_exists = "append", index = False)
 
 #%% Chiusura connessione
     postgresql_connection.close()

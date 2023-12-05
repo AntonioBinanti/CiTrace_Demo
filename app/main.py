@@ -12,6 +12,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from app.ML_models.model_functions import predict_cluster
 from app.ML_models.model_functions import predict_components
 from app.ML_models.model_functions import __version__ as model_version
+from app.ML_models.Cluster_CiTrace_Demo import retrain_cluster_model
 from app.database import models, schemas, crud_functions
 from app.database.database import engine, SessionLocal
 from sqlalchemy.orm import Session
@@ -20,7 +21,7 @@ from app.dataset import test_import_database
 #%% Definizione app e database 
 app = FastAPI()
 
-#models.Base.metadata.drop_all(bind = engine, checkfirst=True)
+#models.Base.metadata.drop_all(bind = engine, checkfirst=True) #Per resettare il database locale
 models.Base.metadata.create_all(bind = engine, checkfirst=True)
 
 #%% Per aprire e chiudere le sessioni di utilizzo del database
@@ -125,6 +126,16 @@ def create_device_to_user(username: str, device: schemas.Device, db: Session = D
                 raise HTTPException(status_code=400, detail="Device already registered")
     return crud_functions.create_device_to_user(db=db, device=device, user_id=db_user.user_id)
 
+@app.post("/add_request/{user_id}/{device}", response_model = schemas.RequestExt)
+def create_request(request: schemas.Request, user_id: int, device: int, db: Session = Depends(get_db)):
+    db_user = crud_functions.get_user_id(db, user_id = user_id)
+    if db_user is None:
+        raise HTTPException(status_code=404, detail="User not found")
+    db_device = crud_functions.get_device_identifier(db, identifier = device)
+    if db_device is None:
+        raise HTTPException(status_code=404, detail="Device not found")
+    return crud_functions.create_request(db = db, request = request, user_id = user_id, device = device)
+
 @app.put("/update_user/{username}") 
 def update_user(username: str, user_updated: schemas.User, db: Session = Depends(get_db)):
     db_user = crud_functions.get_user(db, username = username)
@@ -176,6 +187,7 @@ def delete_device(request_id: int, db: Session = Depends(get_db)):
     db.delete(db_request)
     db.commit()
     return {"ok": True}
+
 #%% Test API
 
 @app.get("/importa")
@@ -186,3 +198,7 @@ def importa(db: Session = Depends(get_db)):
         "Import": "Ok",
         "Details": import_list
         }
+
+@app.get("/retrain_cluster")
+def retrain_cluster(db: Session = Depends(get_db)):
+    return retrain_cluster_model(db)
