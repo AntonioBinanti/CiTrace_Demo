@@ -18,7 +18,7 @@ def importa(db: Session):
 
 #%% Modellazione DataFrames
     request = request.rename(columns = {"Unnamed: 0": "request_id"})
-    actualUser = actualUser.rename(columns = {"Unnamed: 0": "user_id", "user_id": "username", "device_info_identifier": "device_info"})
+    actualUser = actualUser.rename(columns = {"Unnamed: 0": "user_id", "user_id": "username", "device_info_identifier": "device_info", "user_ip_address": "user_IP_address"})
     list = actualUser["device_info"].apply(ast.literal_eval).tolist()
     actualUser["device_info"] = np.NaN
     actualUser.logged_in.fillna(value = True, inplace = True)
