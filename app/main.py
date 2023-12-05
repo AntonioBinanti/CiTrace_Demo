@@ -20,7 +20,7 @@ from app.dataset import test_import_database
 #%% Definizione app e database 
 app = FastAPI()
 
-models.Base.metadata.drop_all(bind = engine, checkfirst=True)
+#models.Base.metadata.drop_all(bind = engine, checkfirst=True)
 models.Base.metadata.create_all(bind = engine, checkfirst=True)
 
 #%% Per aprire e chiudere le sessioni di utilizzo del database
@@ -178,7 +178,7 @@ def delete_device(request_id: int, db: Session = Depends(get_db)):
     return {"ok": True}
 #%% Test API
 
-@app.get("/importa")
+#@app.get("/importa")
 def importa(db: Session = Depends(get_db)):
     import_list = test_import_database.importa(db)
     

@@ -11,8 +11,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.pool import SingletonThreadPool
 
 #%%
-#SQLALCHEMY_DATABASE_URL = "postgresql://utente1:gBudzRyqR1ebZVOY2TobUyJINDB3Sqac@dpg-cleu9jbl00ks739tvo20-a/prova_urov" #PER RENDER.COM
-SQLALCHEMY_DATABASE_URL = "postgresql://utente1:va2dgjlCFUwVNL5IXnhwCfifKs1xRxXi@dpg-clng7b1ll56s73fhb8v0-a/db_citrace_demo" #SECONDO DATABASE DI RENDER.COM
+SQLALCHEMY_DATABASE_URL = "postgresql://utente1:va2dgjlCFUwVNL5IXnhwCfifKs1xRxXi@dpg-clng7b1ll56s73fhb8v0-a/db_citrace_demo" #DATABASE DI RENDER.COM
 #SQLALCHEMY_DATABASE_URL = "sqlite:///./ciTrace.db" #PER DB LOCALE
 
 engine = create_engine(
