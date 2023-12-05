@@ -178,7 +178,7 @@ def delete_device(request_id: int, db: Session = Depends(get_db)):
     return {"ok": True}
 #%% Test API
 
-#@app.get("/importa")
+@app.get("/importa")
 def importa(db: Session = Depends(get_db)):
     import_list = test_import_database.importa(db)
     
