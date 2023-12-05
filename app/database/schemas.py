@@ -25,7 +25,7 @@ class PredictionComponents(BaseModel):
     scorciatoie: Dict[str, int]
     
 class Device(BaseModel):
-    model: str
+    device_type: str
     class Config:
         orm_mode = True
     
@@ -33,6 +33,18 @@ class DeviceExt(Device):
     identifier: int
     owner_id: Optional[int] 
     #owners: Optional[List[str]] = [] #DA CONTROLLARE
+    
+class Request(BaseModel):
+    request_id: int
+    event: str
+    selector: Optional[str]
+    timestamp: str
+    page_url_current: Optional[str]
+    actualUser: int #UserExt 
+    device_info: int #DeviceExt
+    component: str
+    class Config:
+        orm_mode = True
     
 class User(BaseModel):
     #user_id: int
@@ -48,6 +60,9 @@ class User(BaseModel):
         orm_mode = True
     
 class UserExt(User):
-    #dev_info: Optional[str]
     user_id: int
     device_info: Optional[List[Device]] = []
+    
+class UserRequests(User):
+    user_id: int
+    requests: Optional[List[Request]] = []

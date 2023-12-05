@@ -8,13 +8,14 @@ Created on Thu Nov 23 10:02:47 2023
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.pool import SingletonThreadPool
 
 #%%
 SQLALCHEMY_DATABASE_URL = "postgresql://utente1:gBudzRyqR1ebZVOY2TobUyJINDB3Sqac@dpg-cleu9jbl00ks739tvo20-a/prova_urov" #PER RENDER.COM
-#SQLALCHEMY_DATABASE_URL = "sqlite:///./books.db" #PER DB LOCALE
+#SQLALCHEMY_DATABASE_URL = "sqlite:///./ciTrace.db" #PER DB LOCALE
 
 engine = create_engine(
-    SQLALCHEMY_DATABASE_URL#, connect_args={"check_same_thread": False}
+    SQLALCHEMY_DATABASE_URL#, poolclass = SingletonThreadPool#, connect_args={"check_same_thread": False}
 )
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)

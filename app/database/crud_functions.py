@@ -34,14 +34,11 @@ def create_user(db: Session, user: schemas.User):
     db.refresh(user_model)
     return user_model
 
-#def get_devices_user(db: Session, user_id: int):
-#    return db.query(model.AllUsers).filter(models.AllUsers == user_id).
+def get_device_type(db: Session, device_type: str):
+    return db.query(models.Device_info).filter(models.Device_info.device_type == device_type).all()
 
-def get_device_model(db: Session, model: str):
-    return db.query(models.Device_info).filter(models.Device_info.model == model).all()
-
-def get_device_model_user(db: Session, model: str, user_id: int):
-    return db.query(models.Device_info).filter(models.Device_info.model == model, models.Device_info.owner_id == user_id).first()
+def get_device_model_user(db: Session, device_type: str, user_id: int):
+    return db.query(models.Device_info).filter(models.Device_info.device_type == device_type, models.Device_info.owner_id == user_id).first()
 
 def get_device_identifier(db: Session, identifier: int):
     return db.query(models.Device_info).filter(models.Device_info.identifier == identifier).first()
@@ -73,3 +70,9 @@ def update_device(db: Session, device_updated: schemas.Device, db_device: schema
     db.commit()
     db.refresh(db_device)
     return db_device
+
+def get_requests(db: Session):
+    return db.query(models.Request).limit(10).all()
+
+def get_request_id(db: Session, request_id: int):
+    return db.query(models.Request).filter(models.Request.request_id == request_id).first()
